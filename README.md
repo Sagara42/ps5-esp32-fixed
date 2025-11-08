@@ -1,4 +1,7 @@
 # ps5-esp32-fixed
+
+Original source: https://github.com/rodneybakiskan/ps5-esp32
+
 Fixed SendData for ps5-esp32 and add TriggerEffects
 
 Applied fixes from https://github.com/pdumais/small_rover/tree/master/ps5
