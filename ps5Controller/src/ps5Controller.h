@@ -63,6 +63,8 @@ class ps5Controller {
   /// @param end_strength The force of the resistance at the end. Must be between 1 and 8 inclusive.
   void setTriggerEffectSlopeFeedback(bool isLeft, uint8_t start_pos, uint8_t end_pos, uint8_t start_strength, uint8_t end_strength);
 
+  //https://github.com/ricardoquesada/bluepad32/blob/main/src/components/bluepad32/parser/uni_hid_parser_ds5.c:652
+  void setPlayerLeds(uint8_t value);
   void setLed(uint8_t r, uint8_t g, uint8_t b);
   void setRumble(uint8_t small, uint8_t large);
   void setFlashRate(uint8_t onTime, uint8_t offTime);

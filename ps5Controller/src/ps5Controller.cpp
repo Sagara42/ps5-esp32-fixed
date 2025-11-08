@@ -50,7 +50,6 @@ bool ps5Controller::begin(const char* mac) {
   }
 
   ps5_l2cap_connect(addr);
-  // ps5SetBluetoothMacAddress(addr);
 
   return begin();
 }
@@ -269,7 +268,6 @@ void ps5Controller::setTriggerEffectVibration(bool isLeft, uint8_t start_pos, ui
     ps5_send_output_report(&output_report);
  }
 
-
 void ps5Controller::setTriggerEffectMultiplePositionVibration(bool isLeft, uint8_t frequency, uint8_t* amplitude)
 {
   TriggerEffectType type = Vibration;
@@ -335,6 +333,19 @@ void ps5Controller::setLed(uint8_t r, uint8_t g, uint8_t b) {
   ps5_send_output_report(&output_report);
 }
 
+void ps5Controller::setPlayerLeds(uint8_t value)
+{
+   output_report.valid_flag1 = DS5_FLAG1_PLAYER_LED;
+   static const char led_values[] = {
+        0x00,                               // No player
+        BIT(2),                             // Player 1 (center LED)
+        BIT(1) | BIT(3),                    // Player 2
+        BIT(0) | BIT(2) | BIT(4),           // Player 3
+        BIT(0) | BIT(1) | BIT(3) | BIT(4),  // Player 4
+    };
+    output_report.player_leds = led_values[value % sizeof(led_values)];
+}
+
 void ps5Controller::setRumble(uint8_t small, uint8_t large) {
   output_report.motor_right = small;
   output_report.motor_left = large;
@@ -357,8 +368,8 @@ void ps5Controller::attachOnDisconnect(callback_t callback) {
   _callback_disconnect = callback;
 }
 
-void ps5Controller::_event_callback(
-  void* object, ps5_t data, ps5_event_t event) {
+void ps5Controller::_event_callback(void* object, ps5_t data, ps5_event_t event) 
+{
   ps5Controller* This = (ps5Controller*)object;
 
   memcpy(&This->data, &data, sizeof(ps5_t));
@@ -369,7 +380,8 @@ void ps5Controller::_event_callback(
   }
 }
 
-void ps5Controller::_connection_callback(void* object, uint8_t isConnected) {
+void ps5Controller::_connection_callback(void* object, uint8_t isConnected) 
+{
   ps5Controller* This = (ps5Controller*)object;
 
   if (isConnected) {

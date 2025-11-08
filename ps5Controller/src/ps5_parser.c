@@ -96,7 +96,7 @@ void parsePacket_simplified(uint8_t *packet)
   ps5.analog.stick = parsePacketAnalogStick_simplified(packet);
   ps5.analog.button = parsePacketAnalogButton_simplified(packet);
   ps5.status = parsePacketStatus_simplified(packet);
-  ps5.latestPacket = true;
+  ps5.latestPacket = packet;
 
   ps5_event_t ps5Event = parseEvent(prev_ps5, ps5);
 
@@ -145,7 +145,7 @@ void parsePacket_extended(uint8_t *packet)
   ps5.analog.button.l2 = packet[7];
   ps5.analog.button.r2 = packet[8];
   ps5.status.battery = (packet[55] & ps5_status_mask_battery) * 10;
-  ps5.latestPacket = true;
+  ps5.latestPacket = packet;
 
   ps5_event_t ps5Event = parseEvent(prev_ps5, ps5);
 
